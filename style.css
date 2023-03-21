@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.game {
+    width: 100%;
+    height: 100vh;
+    background-color: lightblue;
+    border: 2px solid red;
+}
+
+.containerLivesScore{
+    display: flex;
+    flex-direction: row;
+}
+
+#scoreText{
+    color: white;
+    font-size: 20px;
+    padding: 1%;
+    left: 0;
+    width: 40%;
+}
+
+#livesText{
+    right: 0;
+    color: white;
+    font-size: 20px;
+    position: absolute;
+    padding: 1%;
+    width: 40%;
+    text-align: right;
+}
+
+.danger-line {
+    width: 100%;
+    height: 25px;
+    background-color: transparent;
+    position: absolute;
+    position: absolute;
+    bottom: 0;
+}
+
+.basket {
+    width: 80px;
+    height: 50px;
+    /* background-color: blue; */
+    position: absolute;
+    bottom: 25px;
+
+    /*     border: 1px solid green; */
+}
+
+.fruit {
+    width: 40px;
+    height: 40px;
+    /*     border: 1px solid green;  */
+    position: absolute;
+    margin-top: -100px;
+    background-image: url(egg.png);
+    background-position: top center;
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+
+
+.startGame{
+    padding: 2%;
+    background-color: rgba(0, 0, 0, 0.582);
+    color: white;
+    text-align: center;
+    font-size: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+}
+
+.catch-animation {
+    animation-name: catch;
+    animation-duration: 0.3s;
+  }
+  
+  @keyframes catch {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.1);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
