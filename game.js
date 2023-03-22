@@ -194,8 +194,8 @@ function generateEnemies() {
             clearInterval(fruitInterval);
             clearInterval(fruitTimeout);
 
-            score = livesAfterCollideWithEnemy;
-            scoreText.innerHTML = 'Score: ' + `${score}`;
+            lives = livesAfterCollideWithEnemy;
+            livesText.innerHTML = 'Lives: ' + `${lives}`;
 
             console.log("YOU WINNNN")
             gameStarted = false;
@@ -209,7 +209,6 @@ function generateEnemies() {
         if (enemyBottom < basketBottom && lives > 0 && enemyDiv.parentNode === enemies) {
             enemies.removeChild(enemyDiv);
             enemyDivs.splice(indexEnemy, 1);
-
         }
 
         enemyBottom -= 5;
