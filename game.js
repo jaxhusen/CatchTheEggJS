@@ -9,7 +9,7 @@ var basketBottom = parseInt(window.getComputedStyle(basket).getPropertyValue("bo
 
 
 //change physics of the image (basket)
-const basketUrl = "basket.png";
+const basketUrl = "bag.png";
 const basketWidth = 100;
 const basketHeight = 150;
 basket.style.backgroundImage = `url(${basketUrl})`;
@@ -19,10 +19,11 @@ basket.style.backgroundPosition = "top center";
 basket.style.backgroundSize = "100%";
 basket.style.backgroundRepeat = "no-repeat";
 
+
 //change physics of the image (egg)
 const eggUrl = "egg.png";
-const eggWidth = 40;
-const eggHeight = 40;
+const eggWidth = 50;
+const eggHeight = 50;
 /* fruits.style.backgroundImage = `url(${eggUrl})`;
 fruits.style.width = eggWidth + 'px';
 fruits.style.height = eggHeight + 'px';
@@ -31,11 +32,12 @@ fruits.style.backgroundSize = "100%";
 fruits.style.backgroundRepeat = "no-repeat"; */
 /* fruits.style.display = "none"; */
 
+
 //variables for generateFruits()
 var easyIntervalSpeed = 12;
 var mediumIntervalSpeed = easyIntervalSpeed / 2;
 var hardIntervalSpeed = easyIntervalSpeed / 4;
-var setIntervalSpeed = easyIntervalSpeed;              //how fast the egg will fall
+var setIntervalSpeed = easyIntervalSpeed;            //how fast the egg will fall
 
 var easyTimeoutSpeed = 2000;
 var mediumTimeoutSpeed = easyTimeoutSpeed / 2;
@@ -51,18 +53,24 @@ var fruitTimeout;
 
 
 
-
-//variables for generateEnemies
+//variables for generateEnemies()
 const livesAfterCollideWithEnemy = 0;
 var enemyDivs = [];
 var enemyLoopCount = 0;
 
-var setEasyEnemyIntervalSpeed = 12;
-var setEasyEnemyTimeoutSpeed = 2000;
+
+var easyEnemyIntervalSpeed = 10;
+var mediumEnemyIntervalSpeed = easyEnemyIntervalSpeed / 2;
+var hardEnemyIntervalSpeed = easyEnemyIntervalSpeed / 4;
+var setEnemyIntervalSpeed = easyEnemyIntervalSpeed;              //how fast the egg will fall
+
+var easyEnemyTimeoutSpeed = 1500;
+var mediumEnemyTimeoutSpeed = easyEnemyTimeoutSpeed / 2;
+var hardEnemyTimeoutSpeed = easyEnemyTimeoutSpeed / 2;
+var setEnemyTimeoutSpeed = easyEnemyTimeoutSpeed;             //how often the function will run (render a new egg)
+
 var enemyInterval;
 var enemyTimeout;
-
-
 
 
 
@@ -144,6 +152,9 @@ function startGame() {
     setIntervalSpeed = easyIntervalSpeed;
     setTimeoutSpeed = easyTimeoutSpeed;
 
+    setEnemyIntervalSpeed = easyEnemyIntervalSpeed;
+    setEnemyTimeoutSpeed = easyEnemyTimeoutSpeed;
+
     scoreText.innerHTML = 'Score: ' + `${score}`;
     livesText.innerHTML = 'Lives: ' + `${lives}`;
 
@@ -215,8 +226,8 @@ function generateEnemies() {
         enemyDiv.style.bottom = enemyBottom + 'px';
         enemyDiv.style.left = enemyLeft + 'px';
     }
-    enemyInterval = setInterval(enemyfallDown, setEasyEnemyIntervalSpeed);
-    enemyTimeout = setTimeout(generateEnemies, setEasyEnemyTimeoutSpeed);
+    enemyInterval = setInterval(enemyfallDown, setEnemyIntervalSpeed);
+    enemyTimeout = setTimeout(generateEnemies, setEnemyTimeoutSpeed);
 }
 
 
@@ -257,11 +268,17 @@ function generateFruits() {
                 // Increase setIntervalSpeed
                 setIntervalSpeed = mediumIntervalSpeed;
                 setTimeoutSpeed = mediumTimeoutSpeed;
+
+                setEnemyIntervalSpeed = mediumEnemyIntervalSpeed;
+                setEnemyTimeoutSpeed = mediumEnemyTimeoutSpeed;
             }
             if (score == scoreToHard) {
                 // Increase setIntervalSpeed
                 setIntervalSpeed = hardIntervalSpeed;
                 setTimeoutSpeed = hardTimeoutSpeed;
+
+                setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
+                setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
             }
             if (score >= scoreToWin) {
                 clearInterval(fruitInterval);

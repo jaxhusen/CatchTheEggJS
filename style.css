@@ -14,8 +14,8 @@ body {
 .game {
     width: 100%;
     height: 100vh;
-    /* background-color: lightblue; */
-    background-image: url(bio.jpg);
+    background-color: grey; 
+    /* background-image: url(bio.jpg); */
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -55,12 +55,12 @@ body {
 }
 
 .enemy{
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
      /*     border: 1px solid green;  */
     position: absolute;
     margin-top: -100px;
-    background-image: url(tomat.png);
+    background-image: url(skull.png);
     background-position: top center;
     background-repeat: no-repeat;
     background-size: 100%;
@@ -69,10 +69,8 @@ body {
 .basket {
     width: 80px;
     height: 50px;
-    /* background-color: blue; */
     position: absolute;
     bottom: 25px;
-    /*     border: 1px solid green; */
 }
 
 .fruit {
@@ -81,7 +79,7 @@ body {
     /*     border: 1px solid green;  */
     position: absolute;
     margin-top: -100px;
-    background-image: url(egg.png);
+    background-image: url(chips.png);
     background-position: top center;
     background-repeat: no-repeat;
     background-size: 100%;
