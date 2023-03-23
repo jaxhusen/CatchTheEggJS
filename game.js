@@ -1,6 +1,8 @@
 window.addEventListener('resize', () => {
     window.location.reload()
 }); //update size of game depending on size of screen
+document.addEventListener('keydown', controlKeys);
+document.addEventListener('mousemove', moveBasketWithPointer);
 
 var game = document.querySelector(".game");
 var basket = document.querySelector(".basket");
@@ -111,9 +113,7 @@ var basketStartPos = gameWidth / 2 - basketWidth / 2;
 const totalBasketWidth = basket.offsetWidth;
 const basketLeftOffset = basket.offsetLeft;
 
-/* const onePointWidth = onePoint.offsetWidth;
-const onePointLeftOffset = basketLeftOffset + (totalBasketWidth / 2) - (onePointWidth / 2);
- */
+var onePointWidth = onePoint.offsetWidth;
 
 
 
@@ -121,21 +121,18 @@ function moveBasketWithPointer(e) {
     if (!gameStarted) {
         return;
     } else {
-        // Calculate the new position of the basket based on the position of the mouse
         var mouseX = e.clientX;
         var basketNewPos = mouseX - basketWidth / 2;
-
-        // Make sure the basket stays within the game boundaries
         if (basketNewPos < 0) {
             basketNewPos = 0;
         }
         if (basketNewPos > gameWidth - basketWidth) {
             basketNewPos = gameWidth - basketWidth;
         }
-
-        // Move the basket
         basket.style.left = basketNewPos + 'px';
         basketLeft = basketNewPos;
+        // Update the position of the onePoint element
+        onePoint.style.left = basketLeft + totalBasketWidth / 2 - onePointWidth / 2 + 'px';
     }
 }
 
@@ -292,9 +289,10 @@ function generateFruits() {
             score += increseScoreCount;
             scoreText.innerHTML = 'Score: ' + `${score}`;
 
+            onePoint.style.left = basketLeftOffset + totalBasketWidth / 2 - game.offsetLeft + "px";
             basket.classList.add('catch-animation');
             onePoint.classList.add('onePoint');
-
+            //onePoint.style.marginBottom = dangerLine + basketHeight + 5;
             onePoint.innerText = "+1";
             setTimeout(() => {
                 basket.classList.remove('catch-animation');
@@ -302,10 +300,10 @@ function generateFruits() {
                 //onePoint.style.opacity = '0';
             }, 1000);
             
-            onePoint.style.opacity = '1';
+            //onePoint.style.opacity = '1';
             setTimeout(() => {
                 onePoint.style.opacity = '0';
-            }, 1000);
+            }, 1000); 
 
 
             if (score == scoreToMedium) {
@@ -384,5 +382,3 @@ function generateFruits() {
 }
 
 
-document.addEventListener('keydown', controlKeys);
-document.addEventListener('mousemove', moveBasketWithPointer);
