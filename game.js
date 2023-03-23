@@ -1,11 +1,19 @@
+window.addEventListener('resize', () => {
+    window.location.reload()
+}); //update size of game depending on size of screen
+
 var game = document.querySelector(".game");
 var basket = document.querySelector(".basket");
 var fruits = document.querySelector(".fruits");
 var enemies = document.querySelector(".enemies");
+var body = document.querySelector(".body");
+var onePoint = document.querySelector(".onePoint");
+
 
 var startGameButton = document.querySelector(".startGame");
 var basketLeft = parseInt(window.getComputedStyle(basket).getPropertyValue("left"));
 var basketBottom = parseInt(window.getComputedStyle(basket).getPropertyValue("bottom"));
+
 
 
 //change physics of the image (basket)
@@ -22,8 +30,8 @@ basket.style.backgroundRepeat = "no-repeat";
 
 //change physics of the image (egg)
 const eggUrl = "egg.png";
-const eggWidth = 50;
-const eggHeight = 50;
+const eggWidth = 40;
+const eggHeight = 40;
 /* fruits.style.backgroundImage = `url(${eggUrl})`;
 fruits.style.width = eggWidth + 'px';
 fruits.style.height = eggHeight + 'px';
@@ -61,10 +69,10 @@ var enemyLoopCount = 0;
 
 var easyEnemyIntervalSpeed = 10;
 var mediumEnemyIntervalSpeed = easyEnemyIntervalSpeed / 2;
-var hardEnemyIntervalSpeed = easyEnemyIntervalSpeed / 4;
+var hardEnemyIntervalSpeed = easyEnemyIntervalSpeed / 2;
 var setEnemyIntervalSpeed = easyEnemyIntervalSpeed;              //how fast the egg will fall
 
-var easyEnemyTimeoutSpeed = 1500;
+var easyEnemyTimeoutSpeed = 1700;
 var mediumEnemyTimeoutSpeed = easyEnemyTimeoutSpeed / 2;
 var hardEnemyTimeoutSpeed = easyEnemyTimeoutSpeed / 2;
 var setEnemyTimeoutSpeed = easyEnemyTimeoutSpeed;             //how often the function will run (render a new egg)
@@ -73,13 +81,12 @@ var enemyInterval;
 var enemyTimeout;
 
 
-
-var gameWidth = window.innerWidth;
-var gameHeight = window.innerHeight;
-
 const scoreToWin = 20;
 const scoreToMedium = 5;
 const scoreToHard = 10;
+const increseScoreCount = 1;
+const decreaseScoreCount = 1;
+
 var score = 0;
 var lives = 3;
 const restartScore = score;
@@ -87,10 +94,27 @@ const restartLives = lives;
 var scoreText = document.getElementById("scoreText");
 var livesText = document.getElementById("livesText");
 
+const gameWidth = window.innerWidth - 10;
+const gameHeight = window.innerHeight - 50;
+const playWidth = gameWidth - eggWidth;
+game.style.width = gameWidth + 'px';
+game.style.height = gameHeight + 'px';
+/* body.style.width = gameWidth + 'px';
+body.style.height = gameHeight + 'px'; */
 
 
 var gameStarted = false;
 var basketStartPos = gameWidth / 2 - basketWidth / 2;
+
+
+// Calculate the left position of the onePoint element
+const totalBasketWidth = basket.offsetWidth;
+const basketLeftOffset = basket.offsetLeft;
+
+/* const onePointWidth = onePoint.offsetWidth;
+const onePointLeftOffset = basketLeftOffset + (totalBasketWidth / 2) - (onePointWidth / 2);
+ */
+
 
 
 function moveBasketWithPointer(e) {
@@ -144,6 +168,7 @@ function moveBasketRight() {
 
 function startGame() {
     gameStarted = true;
+    basket.classList.remove("catch-enemy-animation");
 
     score = restartScore;
     lives = restartLives;
@@ -164,6 +189,12 @@ function startGame() {
     }
     fruitDivs.splice(0, fruitDivs.length);
 
+    // remove all existing enemies
+    while (enemies.firstChild) {
+        enemies.removeChild(enemies.firstChild);
+    }
+    enemyDivs.splice(0, enemyDivs.length);
+
     generateFruits();
     generateEnemies();
 }
@@ -183,14 +214,14 @@ function generateEnemies() {
     startGameButton.style.display = "none";
 
     var enemyBottom = gameHeight - eggHeight;
-    var enemyLeft = Math.floor(Math.random() * (gameWidth - eggWidth * 2)) + eggWidth; // set the left position with a restriction of 40 pixels on both edges
+    var enemyLeft = Math.floor(Math.random() * (innerWidth - basketWidth)) + basketWidth / 2;
     var enemyDiv = document.createElement('div');
     enemyDiv.setAttribute("class", "enemy");
     enemies.appendChild(enemyDiv);
     enemyDivs.push(enemyDiv);
 
     var indexEnemy = enemyDivs.indexOf(enemyDiv);
-    enemyLoopCount += 1;
+    enemyLoopCount += increseScoreCount;
     console.log('enemies', enemyLoopCount)
 
     function enemyfallDown() {
@@ -208,14 +239,17 @@ function generateEnemies() {
             lives = livesAfterCollideWithEnemy;
             livesText.innerHTML = 'Lives: ' + `${lives}`;
 
-            console.log("YOU WINNNN")
             gameStarted = false;
             startGameButton.style.display = "flex";
 
             basket.classList.add('catch-enemy-animation');
-            setTimeout(() => {
-                basket.classList.remove('catch-enemy-animation');
-            }, 500);
+
+            // remove all existing enemies
+            while (enemies.firstChild) {
+                enemies.removeChild(enemies.firstChild);
+            }
+            enemyDivs.splice(0, enemyDivs.length);
+
         }
         if (enemyBottom < basketBottom && lives > 0 && enemyDiv.parentNode === enemies) {
             enemies.removeChild(enemyDiv);
@@ -236,16 +270,15 @@ function generateFruits() {
     startGameButton.style.display = "none";
 
     var fruitBottom = gameHeight - eggHeight;
-    var fruitLeft = Math.floor(Math.random() * (gameWidth - eggWidth * 2)) + eggWidth; // set the left position with a restriction of 40 pixels on both edges
+    var fruitLeft = Math.floor(Math.random() * (innerWidth - basketWidth)) + basketWidth / 2;
     var fruitDiv = document.createElement('div');
     fruitDiv.setAttribute("class", "fruit");
     fruits.appendChild(fruitDiv);
     fruitDivs.push(fruitDiv);
 
     var index = fruitDivs.indexOf(fruitDiv);
-    loopCount += 1;
+    loopCount += increseScoreCount;
     console.log('fruits:', loopCount)
-
 
     function fruitfallDown() {
         if (fruitBottom < basketBottom + basketHeight && fruitBottom > basketBottom && fruitLeft > basketLeft - eggWidth && fruitLeft < basketLeft + basketWidth) {
@@ -256,13 +289,24 @@ function generateFruits() {
 
             clearInterval(fruitInterval);
 
-            score += 1;
+            score += increseScoreCount;
             scoreText.innerHTML = 'Score: ' + `${score}`;
 
             basket.classList.add('catch-animation');
+            onePoint.classList.add('onePoint');
+
+            onePoint.innerText = "+1";
             setTimeout(() => {
                 basket.classList.remove('catch-animation');
-            }, 500);
+                onePoint.classList.remove('onePoint');
+                //onePoint.style.opacity = '0';
+            }, 1000);
+            
+            onePoint.style.opacity = '1';
+            setTimeout(() => {
+                onePoint.style.opacity = '0';
+            }, 1000);
+
 
             if (score == scoreToMedium) {
                 // Increase setIntervalSpeed
@@ -281,6 +325,8 @@ function generateFruits() {
                 setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
             }
             if (score >= scoreToWin) {
+                clearInterval(enemyInterval);
+                clearTimeout(enemyTimeout);
                 clearInterval(fruitInterval);
                 clearInterval(fruitTimeout);
 
@@ -298,7 +344,7 @@ function generateFruits() {
 
 
         if (fruitBottom < basketBottom && lives > 0 && fruitDiv.parentNode === fruits) {
-            lives -= 1;
+            lives -= decreaseScoreCount;
             livesText.innerHTML = 'Lives: ' + `${lives}`;
             fruits.removeChild(fruitDiv);
             fruitDivs.splice(index, 1);
@@ -306,13 +352,21 @@ function generateFruits() {
 
 
         if (lives == 0) {
+            clearInterval(enemyInterval);
+            clearTimeout(enemyTimeout);
             clearInterval(fruitInterval);
-            clearTimeout(fruitTimeout);
+            clearInterval(fruitTimeout);
 
             while (fruits.firstChild) {
                 fruits.removeChild(fruits.firstChild);
             }
             fruitDivs.splice(0, fruitDivs.length);
+
+            // remove all existing enemies
+            while (enemies.firstChild) {
+                enemies.removeChild(enemies.firstChild);
+            }
+            enemyDivs.splice(0, enemyDivs.length);
 
             gameStarted = false;
             startGameButton.style.display = "flex";
