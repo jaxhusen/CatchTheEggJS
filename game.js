@@ -57,6 +57,7 @@ var setTimeoutSpeed = easyTimeoutSpeed;             //how often the function wil
 var fruitDivs = [];
 var loopCount = 0;
 const restartLoopCount = 0;
+                            // counter for tracking fruit drops
 
 var fruitInterval;
 var fruitTimeout;
@@ -277,6 +278,11 @@ function generateFruits() {
     loopCount += increseScoreCount;
     console.log('fruits:', loopCount)
 
+    if (loopCount % 2 == 0) {
+        // change the angle of the fruit
+        fruitDiv.style.transform = 'rotate(' + (Math.random() * 120 - 50) + 'deg)';
+      }
+
     function fruitfallDown() {
         if (fruitBottom < basketBottom + basketHeight && fruitBottom > basketBottom && fruitLeft > basketLeft - eggWidth && fruitLeft < basketLeft + basketWidth) {
             if (fruitDiv.parentNode === fruits) {
@@ -380,5 +386,3 @@ function generateFruits() {
     fruitInterval = setInterval(fruitfallDown, setIntervalSpeed);
     fruitTimeout = setTimeout(generateFruits, setTimeoutSpeed);
 }
-
-

@@ -98,7 +98,7 @@ body {
   color: white;
   padding: 2%;
   width: 20px;
-  border: 2px solid red;
+/*   border: 2px solid red; */
   z-index: 55;
   font-size: larger;
   animation-name: onePoint;
