@@ -57,7 +57,7 @@ var setTimeoutSpeed = easyTimeoutSpeed;             //how often the function wil
 var fruitDivs = [];
 var loopCount = 0;
 const restartLoopCount = 0;
-                            // counter for tracking fruit drops
+// counter for tracking fruit drops
 
 var fruitInterval;
 var fruitTimeout;
@@ -117,23 +117,23 @@ const basketLeftOffset = basket.offsetLeft;
 var onePointWidth = onePoint.offsetWidth;
 
 
-
 function moveBasketWithPointer(e) {
     if (!gameStarted) {
         return;
     } else {
+        // Calculate the new position of the basket based on the position of the mouse
         var mouseX = e.clientX;
         var basketNewPos = mouseX - basketWidth / 2;
+        // Make sure the basket stays within the game boundaries
         if (basketNewPos < 0) {
             basketNewPos = 0;
         }
         if (basketNewPos > gameWidth - basketWidth) {
             basketNewPos = gameWidth - basketWidth;
         }
+        // Move the basket
         basket.style.left = basketNewPos + 'px';
         basketLeft = basketNewPos;
-        // Update the position of the onePoint element
-        onePoint.style.left = basketLeft + totalBasketWidth / 2 - onePointWidth / 2 + 'px';
     }
 }
 
@@ -281,7 +281,7 @@ function generateFruits() {
     if (loopCount % 2 == 0) {
         // change the angle of the fruit
         fruitDiv.style.transform = 'rotate(' + (Math.random() * 120 - 50) + 'deg)';
-      }
+    }
 
     function fruitfallDown() {
         if (fruitBottom < basketBottom + basketHeight && fruitBottom > basketBottom && fruitLeft > basketLeft - eggWidth && fruitLeft < basketLeft + basketWidth) {
@@ -295,21 +295,22 @@ function generateFruits() {
             score += increseScoreCount;
             scoreText.innerHTML = 'Score: ' + `${score}`;
 
-            onePoint.style.left = basketLeftOffset + totalBasketWidth / 2 - game.offsetLeft + "px";
             basket.classList.add('catch-animation');
-            onePoint.classList.add('onePoint');
-            //onePoint.style.marginBottom = dangerLine + basketHeight + 5;
+            onePoint.classList.add('slide-out-top');
+''
             onePoint.innerText = "+1";
-            setTimeout(() => {
-                basket.classList.remove('catch-animation');
-                onePoint.classList.remove('onePoint');
-                //onePoint.style.opacity = '0';
-            }, 1000);
-            
             //onePoint.style.opacity = '1';
+            
+
+
             setTimeout(() => {
-                onePoint.style.opacity = '0';
-            }, 1000); 
+                //onePoint.style.opacity = '0';
+                basket.classList.remove('catch-animation');
+                onePoint.classList.remove('slide-out-top');
+                onePoint.innerText = "";
+            }, 500);
+
+
 
 
             if (score == scoreToMedium) {

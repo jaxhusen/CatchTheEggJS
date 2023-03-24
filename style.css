@@ -89,33 +89,61 @@ body {
   height: 50px;
   position: absolute;
   bottom: 25px;
+
 }
 
 .onePoint {
-  position: relative;
   opacity: 0;
   transition: opacity 1s ease-in-out;
   color: white;
   padding: 2%;
-  width: 20px;
-/*   border: 2px solid red; */
+  width: 40px;
   z-index: 55;
-  font-size: larger;
+  font-size: 30px;
   animation-name: onePoint;
-  animation-duration: 1s;
+
+  margin: auto;
 }
 
-@keyframes onePoint {
-  from {
-      opacity: 1;
-      transform: translateY(400px);
-}
 
-  to {
-      opacity: 0;
-      transform : translateY(100px);
+
+.slide-out-top {
+	-webkit-animation: slide-out-top 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+	        animation: slide-out-top 0.5s cubic-bezier(0.550, 0.085, 0.680, 0.530) both;
+}
+@-webkit-keyframes slide-out-top {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(-1000px);
+            transform: translateY(-1000px);
+    opacity: 0;
   }
 }
+@keyframes slide-out-top {
+  0% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: translateY(-1000px);
+            transform: translateY(-1000px);
+    opacity: 0;
+  }
+}
+
+
+
+
+
+
+
+
+
 
 .catch-animation {
   animation-name: catch;
