@@ -93,7 +93,7 @@ body {
 }
 
 .onePoint {
-  opacity: 0;
+
   transition: opacity 1s ease-in-out;
   color: white;
   padding: 2%;
@@ -118,8 +118,8 @@ body {
     opacity: 1;
   }
   100% {
-    -webkit-transform: translateY(-1000px);
-            transform: translateY(-1000px);
+    -webkit-transform: translateY(-500px);
+            transform: translateY(-500px);
     opacity: 0;
   }
 }
@@ -130,8 +130,8 @@ body {
     opacity: 1;
   }
   100% {
-    -webkit-transform: translateY(-1000px);
-            transform: translateY(-1000px);
+    -webkit-transform: translateY(-500px);
+            transform: translateY(-500px);
     opacity: 0;
   }
 }

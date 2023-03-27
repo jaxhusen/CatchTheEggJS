@@ -11,11 +11,9 @@ var enemies = document.querySelector(".enemies");
 var body = document.querySelector(".body");
 var onePoint = document.querySelector(".onePoint");
 
-
 var startGameButton = document.querySelector(".startGame");
 var basketLeft = parseInt(window.getComputedStyle(basket).getPropertyValue("left"));
 var basketBottom = parseInt(window.getComputedStyle(basket).getPropertyValue("bottom"));
-
 
 
 //change physics of the image (basket)
@@ -31,25 +29,17 @@ basket.style.backgroundRepeat = "no-repeat";
 
 
 //change physics of the image (egg)
-const eggUrl = "egg.png";
-const eggWidth = 40;
-const eggHeight = 40;
-/* fruits.style.backgroundImage = `url(${eggUrl})`;
-fruits.style.width = eggWidth + 'px';
-fruits.style.height = eggHeight + 'px';
-fruits.style.backgroundPosition = "top center";
-fruits.style.backgroundSize = "100%";
-fruits.style.backgroundRepeat = "no-repeat"; */
-/* fruits.style.display = "none"; */
+const eggWidth = basketWidth /2;
+const eggHeight = basketWidth /2;
 
 
 //variables for generateFruits()
-var easyIntervalSpeed = 12;
+var easyIntervalSpeed = 14;
 var mediumIntervalSpeed = easyIntervalSpeed / 2;
 var hardIntervalSpeed = easyIntervalSpeed / 4;
 var setIntervalSpeed = easyIntervalSpeed;            //how fast the egg will fall
 
-var easyTimeoutSpeed = 2000;
+var easyTimeoutSpeed = 2500;
 var mediumTimeoutSpeed = easyTimeoutSpeed / 2;
 var hardTimeoutSpeed = easyTimeoutSpeed / 4;
 var setTimeoutSpeed = easyTimeoutSpeed;             //how often the function will run (render a new egg)
@@ -57,32 +47,26 @@ var setTimeoutSpeed = easyTimeoutSpeed;             //how often the function wil
 var fruitDivs = [];
 var loopCount = 0;
 const restartLoopCount = 0;
-// counter for tracking fruit drops
 
 var fruitInterval;
 var fruitTimeout;
 
-
-
 //variables for generateEnemies()
 const livesAfterCollideWithEnemy = 0;
 var enemyDivs = [];
-var enemyLoopCount = 0;
 
-
-var easyEnemyIntervalSpeed = 10;
+var easyEnemyIntervalSpeed = 12;
 var mediumEnemyIntervalSpeed = easyEnemyIntervalSpeed / 2;
 var hardEnemyIntervalSpeed = easyEnemyIntervalSpeed / 2;
-var setEnemyIntervalSpeed = easyEnemyIntervalSpeed;              //how fast the egg will fall
+var setEnemyIntervalSpeed = easyEnemyIntervalSpeed;              //how fast the enemy will fall
 
-var easyEnemyTimeoutSpeed = 1700;
+var easyEnemyTimeoutSpeed = 2000;
 var mediumEnemyTimeoutSpeed = easyEnemyTimeoutSpeed / 2;
 var hardEnemyTimeoutSpeed = easyEnemyTimeoutSpeed / 2;
-var setEnemyTimeoutSpeed = easyEnemyTimeoutSpeed;             //how often the function will run (render a new egg)
+var setEnemyTimeoutSpeed = easyEnemyTimeoutSpeed;             //how often the function will run (render a new enemy)
 
 var enemyInterval;
 var enemyTimeout;
-
 
 const scoreToWin = 20;
 const scoreToMedium = 5;
@@ -90,6 +74,7 @@ const scoreToHard = 10;
 const increseScoreCount = 1;
 const decreaseScoreCount = 1;
 
+const onePointInnerText = '+1';
 var score = 0;
 var lives = 3;
 const restartScore = score;
@@ -102,20 +87,16 @@ const gameHeight = window.innerHeight - 50;
 const playWidth = gameWidth - eggWidth;
 game.style.width = gameWidth + 'px';
 game.style.height = gameHeight + 'px';
-/* body.style.width = gameWidth + 'px';
-body.style.height = gameHeight + 'px'; */
-
 
 var gameStarted = false;
+
 var basketStartPos = gameWidth / 2 - basketWidth / 2;
-
-
-// Calculate the left position of the onePoint element
 const totalBasketWidth = basket.offsetWidth;
 const basketLeftOffset = basket.offsetLeft;
-
 var onePointWidth = onePoint.offsetWidth;
 
+scoreText.innerHTML = 'Score: ' + `${score}`;
+livesText.innerHTML = 'Lives: ' + `${lives}`;
 
 function moveBasketWithPointer(e) {
     if (!gameStarted) {
@@ -149,8 +130,6 @@ function moveBasketLeft() {
     }
 }
 
-scoreText.innerHTML = 'Score: ' + `${score}`;
-livesText.innerHTML = 'Lives: ' + `${lives}`;
 
 function moveBasketRight() {
     if (!gameStarted) {
@@ -160,6 +139,17 @@ function moveBasketRight() {
             basketLeft += basketWidth / 2;
             basket.style.left = basketLeft + 'px';
         }
+    }
+}
+
+
+
+function controlKeys(e) {
+    if (e.key == "ArrowLeft") {
+        moveBasketLeft();
+    }
+    if (e.key == "ArrowRight") {
+        moveBasketRight();
     }
 }
 
@@ -198,16 +188,6 @@ function startGame() {
 }
 
 
-
-function controlKeys(e) {
-    if (e.key == "ArrowLeft") {
-        moveBasketLeft();
-    }
-    if (e.key == "ArrowRight") {
-        moveBasketRight();
-    }
-}
-
 function generateEnemies() {
     startGameButton.style.display = "none";
 
@@ -219,8 +199,6 @@ function generateEnemies() {
     enemyDivs.push(enemyDiv);
 
     var indexEnemy = enemyDivs.indexOf(enemyDiv);
-    enemyLoopCount += increseScoreCount;
-    console.log('enemies', enemyLoopCount)
 
     function enemyfallDown() {
         if (enemyBottom < basketBottom + basketHeight && enemyBottom > basketBottom && enemyLeft > basketLeft - eggWidth && enemyLeft < basketLeft + basketWidth) {
@@ -276,7 +254,6 @@ function generateFruits() {
 
     var index = fruitDivs.indexOf(fruitDiv);
     loopCount += increseScoreCount;
-    console.log('fruits:', loopCount)
 
     if (loopCount % 2 == 0) {
         // change the angle of the fruit
@@ -295,26 +272,18 @@ function generateFruits() {
             score += increseScoreCount;
             scoreText.innerHTML = 'Score: ' + `${score}`;
 
-            basket.classList.add('catch-animation');
-            onePoint.classList.add('slide-out-top');
-''
-            onePoint.innerText = "+1";
-            //onePoint.style.opacity = '1';
             
 
-
+            basket.classList.add('catch-animation');
+            onePoint.classList.add('slide-out-top');
+            onePoint.innerText = onePointInnerText;
             setTimeout(() => {
-                //onePoint.style.opacity = '0';
                 basket.classList.remove('catch-animation');
                 onePoint.classList.remove('slide-out-top');
                 onePoint.innerText = "";
             }, 500);
 
-
-
-
             if (score == scoreToMedium) {
-                // Increase setIntervalSpeed
                 setIntervalSpeed = mediumIntervalSpeed;
                 setTimeoutSpeed = mediumTimeoutSpeed;
 
@@ -322,7 +291,6 @@ function generateFruits() {
                 setEnemyTimeoutSpeed = mediumEnemyTimeoutSpeed;
             }
             if (score == scoreToHard) {
-                // Increase setIntervalSpeed
                 setIntervalSpeed = hardIntervalSpeed;
                 setTimeoutSpeed = hardTimeoutSpeed;
 
@@ -335,7 +303,6 @@ function generateFruits() {
                 clearInterval(fruitInterval);
                 clearInterval(fruitTimeout);
 
-                console.log("YOU WINNNN")
                 gameStarted = false;
                 startGameButton.style.display = "flex";
 
