@@ -29,8 +29,8 @@ basket.style.backgroundRepeat = "no-repeat";
 
 
 //change physics of the image (egg)
-const eggWidth = basketWidth /2;
-const eggHeight = basketWidth /2;
+const eggWidth = basketWidth / 2;        //should be the same as fruitWidth in CSS
+const eggHeight = basketWidth / 2;       //should be the same as fruitWidth in CSS
 
 
 //variables for generateFruits()
@@ -72,11 +72,11 @@ const scoreToWin = 20;
 const scoreToMedium = 5;
 const scoreToHard = 10;
 const increseScoreCount = 1;
-const decreaseScoreCount = 1;
+const decreaseLivesCount = 1;
 
-const onePointInnerText = '+1';
+const onePointInnerText = increseScoreCount;
 var score = 0;
-var lives = 3;
+var lives = 1;
 const restartScore = score;
 const restartLives = lives;
 var scoreText = document.getElementById("scoreText");
@@ -94,6 +94,12 @@ var basketStartPos = gameWidth / 2 - basketWidth / 2;
 const totalBasketWidth = basket.offsetWidth;
 const basketLeftOffset = basket.offsetLeft;
 var onePointWidth = onePoint.offsetWidth;
+
+//variables for array and db
+var eggArr = [];          //save score and gameDone()
+var done;
+var game_type;
+var st;
 
 scoreText.innerHTML = 'Score: ' + `${score}`;
 livesText.innerHTML = 'Lives: ' + `${lives}`;
@@ -157,6 +163,7 @@ function controlKeys(e) {
 function startGame() {
     gameStarted = true;
     basket.classList.remove("catch-enemy-animation");
+    onePoint.classList.remove('slide-out-top');
 
     score = restartScore;
     lives = restartLives;
@@ -232,7 +239,7 @@ function generateEnemies() {
             enemyDivs.splice(indexEnemy, 1);
         }
 
-        enemyBottom -= 5;
+        enemyBottom -= 4;
         enemyDiv.style.bottom = enemyBottom + 'px';
         enemyDiv.style.left = enemyLeft + 'px';
     }
@@ -272,11 +279,11 @@ function generateFruits() {
             score += increseScoreCount;
             scoreText.innerHTML = 'Score: ' + `${score}`;
 
-            
-
             basket.classList.add('catch-animation');
             onePoint.classList.add('slide-out-top');
-            onePoint.innerText = onePointInnerText;
+
+            onePoint.innerText = '+' + increseScoreCount;
+
             setTimeout(() => {
                 basket.classList.remove('catch-animation');
                 onePoint.classList.remove('slide-out-top');
@@ -316,7 +323,7 @@ function generateFruits() {
 
 
         if (fruitBottom < basketBottom && lives > 0 && fruitDiv.parentNode === fruits) {
-            lives -= decreaseScoreCount;
+            lives -= decreaseLivesCount;
             livesText.innerHTML = 'Lives: ' + `${lives}`;
             fruits.removeChild(fruitDiv);
             fruitDivs.splice(index, 1);
@@ -346,7 +353,7 @@ function generateFruits() {
             startGameButton.onclick;
         }
 
-        fruitBottom -= 5;
+        fruitBottom -= 4;
         fruitDiv.style.bottom = fruitBottom + 'px';
         fruitDiv.style.left = fruitLeft + 'px';
     }
