@@ -40,15 +40,15 @@ const eggWidth = basketWidth / 2;        //should be the same as fruitWidth in C
 const eggHeight = basketWidth / 2;       //should be the same as fruitWidth in CSS
 
 //variables for generateFruits()
-var easyIntervalSpeed = 14;
+var easyIntervalSpeed = 10;
 var mediumIntervalSpeed = easyIntervalSpeed / 2;
 var hardIntervalSpeed = easyIntervalSpeed / 4;
-var setIntervalSpeed/*  = easyIntervalSpeed */;            //how fast the egg will fall
+var setIntervalSpeed;                   //how fast the egg will fall
 
-var easyTimeoutSpeed = 2500;
+var easyTimeoutSpeed = 4000;
 var mediumTimeoutSpeed = easyTimeoutSpeed / 2;
 var hardTimeoutSpeed = easyTimeoutSpeed / 4;
-var setTimeoutSpeed/*  = easyTimeoutSpeed */;             //how often the function will run (render a new egg)
+var setTimeoutSpeed;                    //how often the function will run (render a new egg)
 
 var fruitDivs = [];
 var loopCount = 0;
@@ -65,14 +65,14 @@ var easyEnemyIntervalSpeed = 12;
 var mediumEnemyIntervalSpeed = easyEnemyIntervalSpeed / 2;
 var hardEnemyIntervalSpeed = easyEnemyIntervalSpeed / 2;
 
-var setEnemyIntervalSpeed/*  = easyEnemyIntervalSpeed */;              //how fast the enemy will fall
+var setEnemyIntervalSpeed;              //how fast the enemy will fall
 
 
-var easyEnemyTimeoutSpeed = 2000;
+var easyEnemyTimeoutSpeed = 2500;
 var mediumEnemyTimeoutSpeed = easyEnemyTimeoutSpeed / 2;
 var hardEnemyTimeoutSpeed = easyEnemyTimeoutSpeed / 2;
 
-var setEnemyTimeoutSpeed/*  = easyEnemyTimeoutSpeed */;             //how often the function will run (render a new enemy)
+var setEnemyTimeoutSpeed;             //how often the function will run (render a new enemy)
 
 var enemyInterval;
 var enemyTimeout;
@@ -180,59 +180,27 @@ function startGame( /* dataCards,
             scoreToWin = _scoreToWin;
             increseScoreCount = _increseScoreCount; */
 
-
-
-
     if (selectedValue == "select") {
         console.log(selectedValue)
         startGameButton.disabled = true;
-    }else{
+    } else {
         if (selectedValue == 'easy') {
-            if(score == restartScore || score < scoreToMedium){
-                console.log('ett')
-                startGameButton.disabled = false;
-        
-                setIntervalSpeed = easyIntervalSpeed;
-                setTimeoutSpeed = easyTimeoutSpeed;
-                setEnemyIntervalSpeed = easyEnemyIntervalSpeed;
-                setEnemyTimeoutSpeed = easyEnemyTimeoutSpeed;
-
-                if (score >= scoreToMedium && score < scoreToHard) {
-                    console.log('två')
-                    setIntervalSpeed = mediumIntervalSpeed;
-                    setTimeoutSpeed = mediumTimeoutSpeed;
-                    setEnemyIntervalSpeed = mediumEnemyIntervalSpeed;
-                    setEnemyTimeoutSpeed = mediumEnemyTimeoutSpeed;
-                }
-            }
-                            
-
-
-            if (score == scoreToHard) {
-                console.log('tre')
-                setIntervalSpeed = hardIntervalSpeed;
-                setTimeoutSpeed = hardTimeoutSpeed;
-                setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
-                setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
-            }
+            console.log('EASY')
+            setIntervalSpeed = easyIntervalSpeed;
+            setTimeoutSpeed = easyTimeoutSpeed;
+            setEnemyIntervalSpeed = easyEnemyIntervalSpeed;
+            setEnemyTimeoutSpeed = easyEnemyTimeoutSpeed;
         }
         if (selectedValue == "medium") {
-            startGameButton.disabled = false;
-            console.log('ett')
+            console.log('MEDIUM')
             setIntervalSpeed = mediumIntervalSpeed;
             setTimeoutSpeed = mediumTimeoutSpeed;
             setEnemyIntervalSpeed = mediumEnemyIntervalSpeed;
             setEnemyTimeoutSpeed = mediumEnemyTimeoutSpeed;
-            if (score == scoreToMedium) {
-                console.log('två')
-                setIntervalSpeed = hardIntervalSpeed;
-                setTimeoutSpeed = hardTimeoutSpeed;
-                setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
-                setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
-            }
+
         }
         if (selectedValue == "hard") {
-            startGameButton.disabled = false;
+            console.log('HARD')
             setIntervalSpeed = hardIntervalSpeed;
             setTimeoutSpeed = hardTimeoutSpeed;
             setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
@@ -240,13 +208,10 @@ function startGame( /* dataCards,
         }
     }
 
-
-
     gameStarted = true;
     basket.classList.remove("catch-enemy-animation");
     onePoint.classList.remove('slide-out-top');
 
-    selectedValue = "select";
     score = restartScore;
     lives = restartLives;
     loopCount = restartLoopCount;
@@ -363,20 +328,32 @@ function generateFruits() {
                 onePoint.innerText = "";
             }, 500);
 
-            /*             if (score == scoreToMedium) {
-                            setIntervalSpeed = mediumIntervalSpeed;
-                            setTimeoutSpeed = mediumTimeoutSpeed;
-            
-                            setEnemyIntervalSpeed = mediumEnemyIntervalSpeed;
-                            setEnemyTimeoutSpeed = mediumEnemyTimeoutSpeed;
-                        }
-                        if (score == scoreToHard) {
-                            setIntervalSpeed = hardIntervalSpeed;
-                            setTimeoutSpeed = hardTimeoutSpeed;
-            
-                            setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
-                            setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
-                        } */
+            if (selectedValue == 'easy' && score == scoreToMedium) {
+                console.log('EASY- switch to medium')
+                setIntervalSpeed = mediumIntervalSpeed;
+                setTimeoutSpeed = mediumTimeoutSpeed;
+                setEnemyIntervalSpeed = mediumEnemyIntervalSpeed;
+                setEnemyTimeoutSpeed = mediumEnemyTimeoutSpeed;
+                console.log(setIntervalSpeed)
+            }
+            if (selectedValue == 'easy' && score == scoreToHard) {
+                console.log('EASY- switch to hard')
+                setIntervalSpeed = hardIntervalSpeed;
+                setTimeoutSpeed = hardTimeoutSpeed;
+                setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
+                setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
+                console.log(setIntervalSpeed)
+            }
+
+            if (selectedValue == "medium" && score == scoreToMedium) {
+                console.log('MEDIUM- switch to hard')
+                setIntervalSpeed = hardIntervalSpeed;
+                setTimeoutSpeed = hardTimeoutSpeed;
+                setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
+                setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
+            }
+
+
             if (score >= scoreToWin) {
                 clearInterval(enemyInterval);
                 clearTimeout(enemyTimeout);
@@ -387,9 +364,9 @@ function generateFruits() {
                 startGameButton.style.display = "flex";
                 document.getElementById('cc-title').innerText = 'Congratulations! You got: ' + score + '! YOU WIN!';
 
-/*                 scoreArr.unshift(gameDone);
-                scoreArr.unshift(score);
-                console.log(scoreArr); */
+                eggArr.unshift(gameDone);
+                eggArr.unshift(score);
+                console.log(eggArr); 
 
                 // remove all existing fruits
                 while (fruits.firstChild) {
