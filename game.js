@@ -25,7 +25,7 @@ var basketLeft = parseInt(window.getComputedStyle(basket).getPropertyValue("left
 var basketBottom = parseInt(window.getComputedStyle(basket).getPropertyValue("bottom"));
 
 //change physics of the image (basket)
-const basketUrl = "bag.png";
+const basketUrl = "olw.png";
 const basketWidth = 100;
 const basketHeight = 150;
 basket.style.backgroundImage = `url(${basketUrl})`;
