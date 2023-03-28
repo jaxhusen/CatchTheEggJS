@@ -10,11 +10,19 @@ var fruits = document.querySelector(".fruits");
 var enemies = document.querySelector(".enemies");
 var body = document.querySelector(".body");
 var onePoint = document.querySelector(".onePoint");
+var dropdown = document.getElementById("difficultyDropdown");
+var selectedValue;
+
+dropdown.addEventListener("change", function () {
+    selectedValue = dropdown.value;
+    if (selectedValue != "select") {
+        startGameButton.disabled = false;
+    }
+});
 
 var startGameButton = document.querySelector(".startGame");
 var basketLeft = parseInt(window.getComputedStyle(basket).getPropertyValue("left"));
 var basketBottom = parseInt(window.getComputedStyle(basket).getPropertyValue("bottom"));
-
 
 //change physics of the image (basket)
 const basketUrl = "bag.png";
@@ -27,22 +35,20 @@ basket.style.backgroundPosition = "top center";
 basket.style.backgroundSize = "100%";
 basket.style.backgroundRepeat = "no-repeat";
 
-
 //change physics of the image (egg)
 const eggWidth = basketWidth / 2;        //should be the same as fruitWidth in CSS
 const eggHeight = basketWidth / 2;       //should be the same as fruitWidth in CSS
-
 
 //variables for generateFruits()
 var easyIntervalSpeed = 14;
 var mediumIntervalSpeed = easyIntervalSpeed / 2;
 var hardIntervalSpeed = easyIntervalSpeed / 4;
-var setIntervalSpeed = easyIntervalSpeed;            //how fast the egg will fall
+var setIntervalSpeed/*  = easyIntervalSpeed */;            //how fast the egg will fall
 
 var easyTimeoutSpeed = 2500;
 var mediumTimeoutSpeed = easyTimeoutSpeed / 2;
 var hardTimeoutSpeed = easyTimeoutSpeed / 4;
-var setTimeoutSpeed = easyTimeoutSpeed;             //how often the function will run (render a new egg)
+var setTimeoutSpeed/*  = easyTimeoutSpeed */;             //how often the function will run (render a new egg)
 
 var fruitDivs = [];
 var loopCount = 0;
@@ -58,12 +64,15 @@ var enemyDivs = [];
 var easyEnemyIntervalSpeed = 12;
 var mediumEnemyIntervalSpeed = easyEnemyIntervalSpeed / 2;
 var hardEnemyIntervalSpeed = easyEnemyIntervalSpeed / 2;
-var setEnemyIntervalSpeed = easyEnemyIntervalSpeed;              //how fast the enemy will fall
+
+var setEnemyIntervalSpeed/*  = easyEnemyIntervalSpeed */;              //how fast the enemy will fall
+
 
 var easyEnemyTimeoutSpeed = 2000;
 var mediumEnemyTimeoutSpeed = easyEnemyTimeoutSpeed / 2;
 var hardEnemyTimeoutSpeed = easyEnemyTimeoutSpeed / 2;
-var setEnemyTimeoutSpeed = easyEnemyTimeoutSpeed;             //how often the function will run (render a new enemy)
+
+var setEnemyTimeoutSpeed/*  = easyEnemyTimeoutSpeed */;             //how often the function will run (render a new enemy)
 
 var enemyInterval;
 var enemyTimeout;
@@ -124,7 +133,6 @@ function moveBasketWithPointer(e) {
     }
 }
 
-
 function moveBasketLeft() {
     if (!gameStarted) {
         return; // Disable key moves until game has started
@@ -135,7 +143,6 @@ function moveBasketLeft() {
         }
     }
 }
-
 
 function moveBasketRight() {
     if (!gameStarted) {
@@ -148,8 +155,6 @@ function moveBasketRight() {
     }
 }
 
-
-
 function controlKeys(e) {
     if (e.key == "ArrowLeft") {
         moveBasketLeft();
@@ -160,20 +165,91 @@ function controlKeys(e) {
 }
 
 
-function startGame() {
+
+
+function startGame( /* dataCards, 
+                    _done, 
+                    _game_type,
+                    _st, 
+                    _scoreToWin,
+                    _increseScoreCount  */) {
+
+    /*         game_type = _game_type;
+            done = _done;
+            st = _st;
+            scoreToWin = _scoreToWin;
+            increseScoreCount = _increseScoreCount; */
+
+
+
+
+    if (selectedValue == "select") {
+        console.log(selectedValue)
+        startGameButton.disabled = true;
+    }else{
+        if (selectedValue == 'easy') {
+            if(score == restartScore || score < scoreToMedium){
+                console.log('ett')
+                startGameButton.disabled = false;
+        
+                setIntervalSpeed = easyIntervalSpeed;
+                setTimeoutSpeed = easyTimeoutSpeed;
+                setEnemyIntervalSpeed = easyEnemyIntervalSpeed;
+                setEnemyTimeoutSpeed = easyEnemyTimeoutSpeed;
+
+                if (score >= scoreToMedium && score < scoreToHard) {
+                    console.log('två')
+                    setIntervalSpeed = mediumIntervalSpeed;
+                    setTimeoutSpeed = mediumTimeoutSpeed;
+                    setEnemyIntervalSpeed = mediumEnemyIntervalSpeed;
+                    setEnemyTimeoutSpeed = mediumEnemyTimeoutSpeed;
+                }
+            }
+                            
+
+
+            if (score == scoreToHard) {
+                console.log('tre')
+                setIntervalSpeed = hardIntervalSpeed;
+                setTimeoutSpeed = hardTimeoutSpeed;
+                setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
+                setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
+            }
+        }
+        if (selectedValue == "medium") {
+            startGameButton.disabled = false;
+            console.log('ett')
+            setIntervalSpeed = mediumIntervalSpeed;
+            setTimeoutSpeed = mediumTimeoutSpeed;
+            setEnemyIntervalSpeed = mediumEnemyIntervalSpeed;
+            setEnemyTimeoutSpeed = mediumEnemyTimeoutSpeed;
+            if (score == scoreToMedium) {
+                console.log('två')
+                setIntervalSpeed = hardIntervalSpeed;
+                setTimeoutSpeed = hardTimeoutSpeed;
+                setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
+                setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
+            }
+        }
+        if (selectedValue == "hard") {
+            startGameButton.disabled = false;
+            setIntervalSpeed = hardIntervalSpeed;
+            setTimeoutSpeed = hardTimeoutSpeed;
+            setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
+            setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
+        }
+    }
+
+
+
     gameStarted = true;
     basket.classList.remove("catch-enemy-animation");
     onePoint.classList.remove('slide-out-top');
 
+    selectedValue = "select";
     score = restartScore;
     lives = restartLives;
     loopCount = restartLoopCount;
-
-    setIntervalSpeed = easyIntervalSpeed;
-    setTimeoutSpeed = easyTimeoutSpeed;
-
-    setEnemyIntervalSpeed = easyEnemyIntervalSpeed;
-    setEnemyTimeoutSpeed = easyEnemyTimeoutSpeed;
 
     scoreText.innerHTML = 'Score: ' + `${score}`;
     livesText.innerHTML = 'Lives: ' + `${lives}`;
@@ -193,7 +269,6 @@ function startGame() {
     generateFruits();
     generateEnemies();
 }
-
 
 function generateEnemies() {
     startGameButton.style.display = "none";
@@ -221,6 +296,7 @@ function generateEnemies() {
 
             lives = livesAfterCollideWithEnemy;
             livesText.innerHTML = 'Lives: ' + `${lives}`;
+            document.getElementById('cc-title').innerText = 'GAME OVER! You got: ' + score + '!';
 
             gameStarted = false;
             startGameButton.style.display = "flex";
@@ -232,7 +308,6 @@ function generateEnemies() {
                 enemies.removeChild(enemies.firstChild);
             }
             enemyDivs.splice(0, enemyDivs.length);
-
         }
         if (enemyBottom < basketBottom && lives > 0 && enemyDiv.parentNode === enemies) {
             enemies.removeChild(enemyDiv);
@@ -246,8 +321,6 @@ function generateEnemies() {
     enemyInterval = setInterval(enemyfallDown, setEnemyIntervalSpeed);
     enemyTimeout = setTimeout(generateEnemies, setEnemyTimeoutSpeed);
 }
-
-
 
 function generateFruits() {
     startGameButton.style.display = "none";
@@ -290,20 +363,20 @@ function generateFruits() {
                 onePoint.innerText = "";
             }, 500);
 
-            if (score == scoreToMedium) {
-                setIntervalSpeed = mediumIntervalSpeed;
-                setTimeoutSpeed = mediumTimeoutSpeed;
-
-                setEnemyIntervalSpeed = mediumEnemyIntervalSpeed;
-                setEnemyTimeoutSpeed = mediumEnemyTimeoutSpeed;
-            }
-            if (score == scoreToHard) {
-                setIntervalSpeed = hardIntervalSpeed;
-                setTimeoutSpeed = hardTimeoutSpeed;
-
-                setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
-                setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
-            }
+            /*             if (score == scoreToMedium) {
+                            setIntervalSpeed = mediumIntervalSpeed;
+                            setTimeoutSpeed = mediumTimeoutSpeed;
+            
+                            setEnemyIntervalSpeed = mediumEnemyIntervalSpeed;
+                            setEnemyTimeoutSpeed = mediumEnemyTimeoutSpeed;
+                        }
+                        if (score == scoreToHard) {
+                            setIntervalSpeed = hardIntervalSpeed;
+                            setTimeoutSpeed = hardTimeoutSpeed;
+            
+                            setEnemyIntervalSpeed = hardEnemyIntervalSpeed;
+                            setEnemyTimeoutSpeed = hardEnemyTimeoutSpeed;
+                        } */
             if (score >= scoreToWin) {
                 clearInterval(enemyInterval);
                 clearTimeout(enemyTimeout);
@@ -312,6 +385,11 @@ function generateFruits() {
 
                 gameStarted = false;
                 startGameButton.style.display = "flex";
+                document.getElementById('cc-title').innerText = 'Congratulations! You got: ' + score + '! YOU WIN!';
+
+/*                 scoreArr.unshift(gameDone);
+                scoreArr.unshift(score);
+                console.log(scoreArr); */
 
                 // remove all existing fruits
                 while (fruits.firstChild) {
@@ -321,7 +399,6 @@ function generateFruits() {
             }
         }
 
-
         if (fruitBottom < basketBottom && lives > 0 && fruitDiv.parentNode === fruits) {
             lives -= decreaseLivesCount;
             livesText.innerHTML = 'Lives: ' + `${lives}`;
@@ -329,8 +406,12 @@ function generateFruits() {
             fruitDivs.splice(index, 1);
         }
 
-
         if (lives == 0) {
+            gameStarted = false;
+            startGameButton.style.display = "flex";
+            document.getElementById('cc-title').innerText = 'GAME OVER! You got: ' + score + '!';
+
+
             clearInterval(enemyInterval);
             clearTimeout(enemyTimeout);
             clearInterval(fruitInterval);
@@ -346,18 +427,29 @@ function generateFruits() {
                 enemies.removeChild(enemies.firstChild);
             }
             enemyDivs.splice(0, enemyDivs.length);
-
-            gameStarted = false;
-            startGameButton.style.display = "flex";
-            startGameButton.value = "Restart Game";
-            startGameButton.onclick;
         }
-
         fruitBottom -= 4;
         fruitDiv.style.bottom = fruitBottom + 'px';
         fruitDiv.style.left = fruitLeft + 'px';
     }
-
     fruitInterval = setInterval(fruitfallDown, setIntervalSpeed);
     fruitTimeout = setTimeout(generateFruits, setTimeoutSpeed);
 }
+
+function gameDone() {
+    if (game_type == "contestCathTheEgg") {
+        done(game_type, encodeString((Date.now() - st).toString()));
+    } else if (game_type == "couponCathTheEgg") {
+        done("contestCathTheEgg", encodeString((Date.now() - st).toString()));
+    }
+}
+
+var encodeString = function (val/*:String*/) {
+    var res/*:String*/ = "";
+
+    for (var i/*:Number*/ = 0; i < val.length; i++) {
+        res += String.fromCharCode((val.charCodeAt(i) + 64));
+    }
+
+    return res;
+};
