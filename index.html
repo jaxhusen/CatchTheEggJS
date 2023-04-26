@@ -14,7 +14,7 @@
     <div class="game">
 
         <div style="display: block;">
-            <div id="cc-title">{{{gameHeading}}}</div>
+            <div id="cc-title"><!-- {{{gameHeading}}} --></div>
             <!--             <div class="cc-txt">{{{result_before_registration_some_correct_text}}}</div> -->
             <!--             <div>
                 <button id="contest-start-game"
@@ -25,8 +25,17 @@
         <div class="fruits"></div>
         <div class="enemies"></div>
         <div class="containerLivesScore">
-            <div id="scoreText"></div>
-            <div id="livesText"></div>
+            <div class="lvl">
+                <div id="scoreText"></div>
+                <div id="livesText"></div>
+            </div>
+            <select id="difficultyDropdown">
+                <option value="select" disabled selected>Select</option>
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+
         </div>
         <input type="button" class="startGame" value="START GAME" onclick="startGame()" disabled>
         <div class="danger-line"></div>
@@ -34,12 +43,7 @@
             <div class="onePoint slide-out-top"> </div>
         </div>
 
-        <select id="difficultyDropdown">
-            <option value="select" disabled selected>Select</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
+
 
         <!--         {{# show_time}}
         <div class="counter_box" id="brick_counter"></div>

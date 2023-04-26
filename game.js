@@ -8,7 +8,6 @@ var game = document.querySelector(".game");
 var basket = document.querySelector(".basket");
 var fruits = document.querySelector(".fruits");
 var enemies = document.querySelector(".enemies");
-var body = document.querySelector(".body");
 var onePoint = document.querySelector(".onePoint");
 var dropdown = document.getElementById("difficultyDropdown");
 var selectedValue;

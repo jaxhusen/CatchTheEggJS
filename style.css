@@ -6,11 +6,13 @@
 
 body {
   width: 100%;
-  height: 100%;
-  background-image: url(orkla3.jpg);
+  height: 120%;
+  background-color: grey;
+/* background-image: url(orkla3.jpg);
   background-position: right;
   background-repeat: no-repeat;
   background-size: cover;
+  background-color: transparent; */
   color: white;
 }
 
@@ -20,8 +22,18 @@ body {
 
 .containerLivesScore {
   display: flex;
+  flex-direction: column;
+  padding: 5%;
+}
+
+.lvl{
+  display: flex;
   flex-direction: row;
-  justify-content: space-between;
+    justify-content: space-between;
+}
+
+#difficultyDropdown{
+  width: 17%;
 }
 
 #scoreText {
@@ -42,14 +54,12 @@ body {
   height: 25px;
   background-color: transparent;
   position: absolute;
-  position: absolute;
-  bottom: 0;
+  bottom: 0px;
 }
 
 .fruit {
   width: 50px;
   height: 50px;
-  /*     border: 1px solid green;  */
   position: absolute;
   margin-top: -100px;
   background-image: url(chips.png);
@@ -100,7 +110,6 @@ body {
   font-size: 30px;
   margin: auto;
 }
-
 
 
 .slide-out-top {
