@@ -1,6 +1,7 @@
 window.addEventListener('resize', () => {
     window.location.reload()
 }); //update size of game depending on size of screen
+
 document.addEventListener('keydown', controlKeys);
 document.addEventListener('mousemove', moveBasketWithPointer);
 
@@ -26,7 +27,7 @@ var basketBottom = parseInt(window.getComputedStyle(basket).getPropertyValue("bo
 //change physics of the image (basket)
 const basketUrl = "olw.png";
 const basketWidth = 100;
-const basketHeight = 150;
+const basketHeight = 130;
 basket.style.backgroundImage = `url(${basketUrl})`;
 basket.style.width = basketWidth + 'px';
 basket.style.height = basketHeight + 'px';
@@ -363,7 +364,7 @@ function generateFruits() {
                 startGameButton.style.display = "flex";
                 document.getElementById('cc-title').innerText = 'Congratulations! You got: ' + score + '! YOU WIN!';
 
-                eggArr.unshift(gameDone);
+                //eggArr.unshift(gameDone);
                 eggArr.unshift(score);
                 console.log(eggArr); 
 
@@ -412,20 +413,3 @@ function generateFruits() {
     fruitTimeout = setTimeout(generateFruits, setTimeoutSpeed);
 }
 
-function gameDone() {
-    if (game_type == "contestCathTheEgg") {
-        done(game_type, encodeString((Date.now() - st).toString()));
-    } else if (game_type == "couponCathTheEgg") {
-        done("contestCathTheEgg", encodeString((Date.now() - st).toString()));
-    }
-}
-
-var encodeString = function (val/*:String*/) {
-    var res/*:String*/ = "";
-
-    for (var i/*:Number*/ = 0; i < val.length; i++) {
-        res += String.fromCharCode((val.charCodeAt(i) + 64));
-    }
-
-    return res;
-};
